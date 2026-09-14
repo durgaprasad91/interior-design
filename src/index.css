@@ -1,0 +1,105 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette lifted from the Sthira Living brand creative:
+     warm cream ground, espresso text, brass and terracotta accents. */
+  --color-bone: #f6eee0;
+  --color-bone-dim: #eee1cd;
+  --color-sand: #ddc8a8;
+  --color-ink: #241709;
+  --color-ink-soft: #4a3524;
+  --color-muted: #8a7359;
+  --color-clay: #c05f2c;
+  --color-clay-dark: #9c4819;
+  --color-brass: #d4ab52;
+  --color-espresso: #3a2616;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-sans: "Inter", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  /* Fraunces has no Devanagari coverage. */
+  --font-deva: "Tiro Devanagari Sanskrit", "Nirmala UI", serif;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    overflow-x: hidden;
+  }
+  ::selection {
+    background: var(--color-clay);
+    color: var(--color-bone);
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-clay);
+    outline-offset: 3px;
+  }
+}
+
+@layer components {
+  /* Section eyebrow: 01 / SERVICES */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-muted);
+  }
+  .display {
+    font-family: var(--font-display);
+    font-weight: 300;
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+  }
+  /* Elements animated in by GSAP start hidden; .is-ready is set once
+     GSAP has taken over so no-JS / reduced-motion users still see content. */
+  .reveal {
+    opacity: 0;
+  }
+  html.no-anim .reveal {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  animation: marquee 46s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Fade the marquee into the page edges instead of cutting it off. */
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 6%, #000 94%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee {
+    animation: none;
+  }
+}
